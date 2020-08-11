@@ -1,17 +1,17 @@
 const { client } = require("./client.js");
 
-async function createUser({ username, password, name, location }) {
+async function createUser({ username, password, name, gym }) {
   try {
     const {
       rows: [user],
     } = await client.query(
       `
-        INSERT INTO users(username, password, name, location) 
+        INSERT INTO users(username, password, name, gym) 
         VALUES($1, $2, $3, $4) 
         ON CONFLICT (username) DO NOTHING 
         RETURNING *;
       `,
-      [username, password, name, location]
+      [username, password, name, gym]
     );
 
     return user;
@@ -37,5 +37,7 @@ async function createActivities({ actname, acttype }) {
     throw error;
   }
 }
+
+async function createRoutineActivities({})
 
 module.exports = { client, createUser, createActivities };
